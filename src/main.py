@@ -87,6 +87,7 @@ sum_operation_dict = sum_operation_dict(date_period_operations, card_operation_d
 
 
 def cashback(sum_operation_dict_func:dict):
+    """Функция принимает словарь и дополняет его информацией по кэшбэку"""
     sum_operation = sum_operation_dict_func
     for key, value in sum_operation.items():
         if key == 'cards':
@@ -102,10 +103,9 @@ cashback = cashback(sum_operation_dict)
 
 def json_convert(cashback:dict):
     cashback_info = cashback
-    json_convert_info = json.dumps(cashback_info)
+    json_convert_info = json.dumps(cashback_info, ensure_ascii=False)
     return json_convert_info
 
 json_convert = json_convert(cashback)
-print(json_convert)
 
-
+# print(json_convert)
