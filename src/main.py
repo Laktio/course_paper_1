@@ -26,6 +26,7 @@ def greeting(date:str) -> str:
 
 
 today = str(datetime.datetime.now())[:-7]
+greeting = greeting(today)
 
 
 def date_period_operations(file_path:str, date:str) -> list[dict]:
@@ -48,7 +49,7 @@ def date_period_operations(file_path:str, date:str) -> list[dict]:
 
 input_date = "2020-10-12 10:20:21"
 path = "C:\\Users\\ber_l\\OneDrive\\Рабочий стол\\Python\\Projects\\PythonProject\\data\\operations.xlsx"
-
+date_period_operations = date_period_operations(path, input_date)
 # print(date_period_operations("C:\\Users\\ber_l\\OneDrive\\Рабочий стол\\Python\\Projects\\PythonProject\\data\\operations.xlsx", "2020-10-12 12:20:21"))
 
 
@@ -63,7 +64,7 @@ def card_operation_dict(date_period_operations_func:list[dict], greeting_func:st
 
     return card_operation
 
-
+card_operation_dict = card_operation_dict(date_period_operations, greeting)
 # card_operation_dict(date_period_operations(path, input_date), greeting(today))
 
 
@@ -81,7 +82,7 @@ def sum_operation_dict(date_period_operations_func:list[dict], card_operation_di
 
     return card_operation
 
-
+sum_operation_dict = sum_operation_dict(date_period_operations, card_operation_dict)
 # print(sum_operation_dict(date_period_operations(path, input_date), card_operation_dict(date_period_operations(path, input_date), greeting(today))))
 
 
@@ -95,6 +96,7 @@ def cashback(sum_operation_dict_func:dict):
 
     return sum_operation
 
+cashback = cashback(sum_operation_dict)
 # print(cashback(sum_operation_dict(date_period_operations(path, input_date), card_operation_dict(date_period_operations(path, input_date), greeting(today)))))
 
 
@@ -103,7 +105,7 @@ def json_convert(cashback:dict):
     json_convert_info = json.dumps(cashback_info)
     return json_convert_info
 
-
-print(json_convert(cashback(sum_operation_dict(date_period_operations(path, input_date), card_operation_dict(date_period_operations(path, input_date), greeting(today))))))
+json_convert = json_convert(cashback)
+print(json_convert)
 
 
