@@ -102,6 +102,7 @@ cashback = cashback(sum_operation_dict)
 
 
 def json_convert(cashback:dict):
+    """Функция принимает словарь и выдает объект JSON"""
     cashback_info = cashback
     json_convert_info = json.dumps(cashback_info, ensure_ascii=False)
     return json_convert_info
