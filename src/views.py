@@ -1,7 +1,9 @@
 import datetime
 import json
-
+import requests
 import pandas as pd
+from dotenv import load_dotenv
+import os
 
 
 def greeting(date:str) -> str:
@@ -26,7 +28,7 @@ def greeting(date:str) -> str:
 
 
 today = str(datetime.datetime.now())[:-7]
-greeting = greeting(today)
+greeting = greeting(today) # для п.1 задания
 
 
 def date_period_operations(file_path:str, date:str) -> list[dict]:
@@ -97,16 +99,84 @@ def cashback(sum_operation_dict_func:dict):
 
     return sum_operation
 
-cashback = cashback(sum_operation_dict)
+cashback = cashback(sum_operation_dict) # для п.2 задания (приветствие + операции по кратам с кэшбэком)
 # print(cashback(sum_operation_dict(date_period_operations(path, input_date), card_operation_dict(date_period_operations(path, input_date), greeting(today)))))
 
 
-def json_convert(cashback:dict):
+def top_five(date_period_operations_func, cashback_func):
+    """Функция принимает словарь и дополняет его ключом и значениями по топ 5 операциям по сумме платежа"""
+    start_dict = date_period_operations_func
+    start_dict_sorted = sorted(start_dict, key=lambda x: x['Сумма операции с округлением'], reverse=True)
+    start_dict_top_five = []
+    final_dict = {"top_transactions": []}
+    for i in range(5):
+        start_dict_top_five.append(start_dict_sorted[i])
+    for operation in start_dict_top_five:
+        a = {}
+        a["date"] = operation['Дата платежа']
+        a["amount"] = operation['Сумма операции с округлением']
+        a["category"] = operation['Категория']
+        a["description"] = operation['Описание']
+        final_dict["top_transactions"].append(a)
+    cashback = cashback_func
+    cashback.update(final_dict)
+
+    return cashback
+
+top_five = top_five(date_period_operations, cashback)
+# print(top_five)
+
+
+def currency_rates(url_path, top_five_func):
+    """Функция принимет URL сайта с курсом валют и выводит актуальную цену на USD и EUR и добавляет в словарь отчета"""
+    response = requests.get(url_path)
+    result = response.json()
+    usd = result['Valute']['USD']['Value']
+    eur = result['Valute']['EUR']['Value']
+
+    work_piece_dict = [{"currency": "USD", "rate": usd}, {"currency": "EUR", "rate": eur}]
+    final_dict = {"currency_rates": work_piece_dict}
+    top_five_func.update(final_dict)
+
+
+    return top_five_func
+
+
+url = "https://www.cbr-xml-daily.ru/daily_json.js"
+currency_rates = currency_rates(url, top_five)
+
+# print(currency_rates)
+
+
+def stock_prices():
+    url = "https://financialmodelingprep.com/stable/price-target-latest-news?page=0&limit=10"
+
+    load_dotenv()
+    api_key = os.getenv("API_KEY")
+
+    headers = {"apikey": api_key}
+
+    response = requests.get(url, headers=headers)
+
+    # status_code = response.status_code
+    result = response.json()
+
+    return result
+
+stock_prices = stock_prices()
+
+print(stock_prices)
+
+
+
+def json_convert(final_dict:dict):
     """Функция принимает словарь и выдает объект JSON"""
-    cashback_info = cashback
-    json_convert_info = json.dumps(cashback_info, ensure_ascii=False)
+    final_dict_info = final_dict
+    json_convert_info = json.dumps(final_dict_info, ensure_ascii=False)
     return json_convert_info
 
 json_convert = json_convert(cashback)
 
 # print(json_convert)
+
+
