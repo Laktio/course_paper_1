@@ -1,6 +1,5 @@
 import pandas as pd
 import json
-import src.main
 
 
 def year_month_filter(path:str, year:str, month:str):
@@ -11,13 +10,15 @@ def year_month_filter(path:str, year:str, month:str):
         reader = pd.read_excel(path, index_col=0)
         operation_list = reader.to_dict(orient="records")
         filter_operation_list = list(filter(lambda x: year_month in str(x['Дата платежа']), operation_list))
+
         return filter_operation_list
 
 input_year = "2021"
 input_moth = "06"
 path = "C:\\Users\\ber_l\\OneDrive\\Рабочий стол\\Python\\Projects\\PythonProject\\data\\operations.xlsx"
-year_month_filter = year_month_filter(path, input_year, input_moth)
+year_month_filter_variable = year_month_filter(path, input_year, input_moth)
 
+# print (year_month_filter_variable)
 
 
 def caregory_filter(year_month_filter_func):
@@ -38,7 +39,9 @@ def caregory_filter(year_month_filter_func):
 
     return category_dict
 
-caregory_filter = caregory_filter(year_month_filter)
+caregory_filter_variable = caregory_filter(year_month_filter_variable)
+
+# print (caregory_filter_variable)
 
 
 def json_convert(caregory_filter_func:dict):
@@ -47,6 +50,6 @@ def json_convert(caregory_filter_func:dict):
     json_category_dict = json.dumps(category_dict, ensure_ascii=False)
     return json_category_dict
 
-json_convert = json_convert(caregory_filter)
+json_convert_variable = json_convert(caregory_filter_variable)
 
-# print(json_convert)
+print(json_convert_variable)
