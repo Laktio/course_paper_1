@@ -1,6 +1,7 @@
 import pytest
 
-from src.reports import df_converter, spending_by_category, df_converter_var
+from src.reports import df_converter, df_converter_var, spending_by_category
+
 
 @pytest.fixture()
 def file_path():
@@ -18,4 +19,3 @@ def test_spending_by_category():
     input_date = "12.12.2021"
     result = spending_by_category(df_converter_var, input_category, input_date)
     assert result["Дата операции"][0] == "11.12.2021 19:16:58"
-

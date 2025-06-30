@@ -1,6 +1,6 @@
 import pytest
 
-from src.services import year_month_filter, caregory_filter, json_convert
+from src.services import caregory_filter, json_convert, year_month_filter
 
 
 def test_year_month_filter():
@@ -8,7 +8,7 @@ def test_year_month_filter():
     input_year = "2021"
     input_moth = "06"
     result = year_month_filter(path, input_year, input_moth)
-    assert result[0]['Дата платежа'] == '30.06.2021'
+    assert result[0]["Дата платежа"] == "30.06.2021"
 
 
 def test_caregory_filter():
@@ -19,5 +19,4 @@ def test_caregory_filter():
 
 def test_json_convert():
     result = json_convert({})
-    assert result == '{}'
-
+    assert result == "{}"
