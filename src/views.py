@@ -28,7 +28,7 @@ def greeting(date:str) -> str:
 
 
 today = str(datetime.datetime.now())[:-7]
-greeting = greeting(today) # для п.1 задания
+greeting_variable = greeting(today) # для п.1 задания
 
 
 def date_period_operations(file_path:str, date:str) -> list[dict]:
@@ -51,12 +51,11 @@ def date_period_operations(file_path:str, date:str) -> list[dict]:
 
 input_date = "2020-10-12 10:20:21"
 path = "C:\\Users\\ber_l\\OneDrive\\Рабочий стол\\Python\\Projects\\PythonProject\\data\\operations.xlsx"
-date_period_operations = date_period_operations(path, input_date)
-# print(date_period_operations("C:\\Users\\ber_l\\OneDrive\\Рабочий стол\\Python\\Projects\\PythonProject\\data\\operations.xlsx", "2020-10-12 12:20:21"))
+date_period_operations_variable = date_period_operations(path, input_date)
+# print(date_period_operations_variable)
 
 
-def card_operation_dict(date_period_operations_func:list[dict], greeting_func:str) -> dict\
-        :
+def card_operation_dict(date_period_operations_func:list[dict], greeting_func:str) -> dict:
     """Функция принимает список словарей отфильтрованных по дате (функция date_period_operations)
     и выводит словарь с ключом 'cards' и списком словарей в значении с ключами 'last_digits'
     и четырьмя цифрами в значениях"""
@@ -66,8 +65,8 @@ def card_operation_dict(date_period_operations_func:list[dict], greeting_func:st
 
     return card_operation
 
-card_operation_dict = card_operation_dict(date_period_operations, greeting)
-# card_operation_dict(date_period_operations(path, input_date), greeting(today))
+card_operation_dict_variable = card_operation_dict(date_period_operations_variable, greeting_variable)
+# print(card_operation_dict_variable)
 
 
 def sum_operation_dict(date_period_operations_func:list[dict], card_operation_dict_func:dict) -> dict:
@@ -84,8 +83,8 @@ def sum_operation_dict(date_period_operations_func:list[dict], card_operation_di
 
     return card_operation
 
-sum_operation_dict = sum_operation_dict(date_period_operations, card_operation_dict)
-# print(sum_operation_dict(date_period_operations(path, input_date), card_operation_dict(date_period_operations(path, input_date), greeting(today))))
+sum_operation_dict_variable = sum_operation_dict(date_period_operations_variable, card_operation_dict_variable)
+# print(sum_operation_dict_variable)
 
 
 def cashback(sum_operation_dict_func:dict):
@@ -99,32 +98,32 @@ def cashback(sum_operation_dict_func:dict):
 
     return sum_operation
 
-cashback = cashback(sum_operation_dict) # для п.2 задания (приветствие + операции по кратам с кэшбэком)
-# print(cashback(sum_operation_dict(date_period_operations(path, input_date), card_operation_dict(date_period_operations(path, input_date), greeting(today)))))
+cashback_variable = cashback(sum_operation_dict_variable) # для п.2 задания (приветствие + операции по кратам с кэшбэком)
+# print(cashback_variable)
 
 
-def top_five(date_period_operations_func, cashback_func):
+def top_five(date_period_operations_func:list[dict], cashback_func:dict) -> dict:
     """Функция принимает словарь и дополняет его ключом и значениями по топ 5 операциям по сумме платежа"""
-    start_dict = date_period_operations_func
-    start_dict_sorted = sorted(start_dict, key=lambda x: x['Сумма операции с округлением'], reverse=True)
-    start_dict_top_five = []
+    start_list = date_period_operations_func
+    start_list_sorted = sorted(start_list, key=lambda x: x['Сумма операции с округлением'], reverse=True)
+    start_list_top_five = []
     final_dict = {"top_transactions": []}
     for i in range(5):
-        start_dict_top_five.append(start_dict_sorted[i])
-    for operation in start_dict_top_five:
-        a = {}
-        a["date"] = operation['Дата платежа']
-        a["amount"] = operation['Сумма операции с округлением']
-        a["category"] = operation['Категория']
-        a["description"] = operation['Описание']
-        final_dict["top_transactions"].append(a)
+        start_list_top_five.append(start_list_sorted[i])
+    for operation in start_list_top_five:
+        work_dict = {}
+        work_dict["date"] = operation['Дата платежа']
+        work_dict["amount"] = operation['Сумма операции с округлением']
+        work_dict["category"] = operation['Категория']
+        work_dict["description"] = operation['Описание']
+        final_dict["top_transactions"].append(work_dict)
     cashback = cashback_func
     cashback.update(final_dict)
 
     return cashback
 
-top_five = top_five(date_period_operations, cashback)
-# print(top_five)
+top_five_variable = top_five(date_period_operations_variable, cashback_variable)
+# print(top_five_variable)
 
 
 def currency_rates(url_path, top_five_func):
@@ -143,40 +142,56 @@ def currency_rates(url_path, top_five_func):
 
 
 url = "https://www.cbr-xml-daily.ru/daily_json.js"
-currency_rates = currency_rates(url, top_five)
+currency_rates_variable = currency_rates(url, top_five_variable)
 
-# print(currency_rates)
+# print(currency_rates_variable)
 
 
-def stock_prices():
-    url = "https://financialmodelingprep.com/stable/price-target-latest-news?page=0&limit=10"
-
+def stock_prices(currency_rates_func):
+    currency_rates_final_dict = currency_rates_func
     load_dotenv()
     api_key = os.getenv("API_KEY")
+    symbol_list = ["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA"]
+    current_date = str(datetime.date.today())
+    stock_list = []
+    for symbol in symbol_list:
+        url = 'https://financialmodelingprep.com/stable/historical-price-eod/light?symbol=' + symbol + api_key
+        headers = {"apikey": api_key}
+        response = requests.get(url, headers=headers)
+        # status_code = response.status_code
+        result_list = response.json()
+        stock_list += result_list
 
-    headers = {"apikey": api_key}
+    stock_list_filtered_date = [x for x in stock_list if x['date'] == current_date]
+    final_list = []
+    for stock in stock_list_filtered_date:
+        stock_dict ={}
+        for key, value in stock.items():
+            if key == 'symbol':
+                stock_dict[key] = value
+            elif key == 'price':
+                stock_dict[key] = value
+        final_list.append(stock_dict)
+    final_dict = {"stock_prices": final_list}
 
-    response = requests.get(url, headers=headers)
+    currency_rates_final_dict.update(final_dict)
 
-    # status_code = response.status_code
-    result = response.json()
+    return currency_rates_final_dict
 
-    return result
+stock_prices_variable = stock_prices(currency_rates_variable)
 
-stock_prices = stock_prices()
-
-print(stock_prices)
+# print(stock_prices_variable)
 
 
 
 def json_convert(final_dict:dict):
-    """Функция принимает словарь и выдает объект JSON"""
+    """Функция принимает словарь и выдает строку с объектом JSON"""
     final_dict_info = final_dict
     json_convert_info = json.dumps(final_dict_info, ensure_ascii=False)
     return json_convert_info
 
-json_convert = json_convert(cashback)
+json_convert_variable = json_convert(stock_prices_variable)
 
-# print(json_convert)
+# print(json_convert_variable)
 
 
