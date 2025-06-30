@@ -1,11 +1,12 @@
 import datetime
-import json
+
 from typing import Optional
 
 import pandas as pd
 
 
 def df_converter(path):
+    """Функция принимает путь к файлу Excel и выводит DF с содержимым"""
     with open(path, encoding="utf-8"):
         reader = pd.read_excel(path)
 

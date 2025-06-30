@@ -1,9 +1,9 @@
-import unittest
-from unittest.mock import Mock, mock_open, patch
+
+from unittest.mock import patch
 
 import pytest
 
-import src.views
+
 from src.views import (
     card_operation_dict,
     cashback,

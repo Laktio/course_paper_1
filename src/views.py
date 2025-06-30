@@ -170,6 +170,7 @@ currency_rates_variable = currency_rates(url, top_five_variable)
 
 
 def stock_prices(currency_rates_func):
+    """Функция принимает словарь (результат функции currency_rates) и дополняет ее данными о стоимости акций"""
     currency_rates_final_dict = currency_rates_func
     load_dotenv()
     api_key = os.getenv("API_KEY")
