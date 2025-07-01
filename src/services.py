@@ -52,13 +52,13 @@ caregory_filter_variable = caregory_filter(year_month_filter_variable)
 # print (caregory_filter_variable)
 
 
-def json_convert(caregory_filter_func: dict):
+def json_convert_services(caregory_filter_func: dict):
     """Функция принимает словарь и выдает объект JSON"""
     category_dict = caregory_filter_func
     json_category_dict = json.dumps(category_dict, ensure_ascii=False)
     return json_category_dict
 
 
-json_convert_variable = json_convert(caregory_filter_variable)
+json_convert_variable = json_convert_services(caregory_filter_variable)
 
 print(json_convert_variable)

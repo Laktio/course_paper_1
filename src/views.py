@@ -211,13 +211,13 @@ stock_prices_variable = stock_prices(currency_rates_variable)
 # print(stock_prices_variable)
 
 
-def json_convert(final_dict: dict):
+def json_convert_views(final_dict: dict):
     """Функция принимает словарь и выдает строку с объектом JSON"""
     final_dict_info = final_dict
     json_convert_info = json.dumps(final_dict_info, ensure_ascii=False)
     return json_convert_info
 
 
-json_convert_variable = json_convert(stock_prices_variable)
+json_convert_variable = json_convert_views(stock_prices_variable)
 
 # print(json_convert_variable)

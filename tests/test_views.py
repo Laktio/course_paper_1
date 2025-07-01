@@ -10,10 +10,10 @@ from src.views import (
     currency_rates,
     date_period_operations,
     greeting,
-    json_convert,
+    json_convert_views,
     stock_prices,
     sum_operation_dict,
-    top_five,
+    top_five
 )
 
 
@@ -196,6 +196,6 @@ def test_stock_prices(mock_get):
     assert result == {"stock_prices": []}
 
 
-def test_json_convert():
-    result = json_convert({})
+def test_json_convert_views():
+    result = json_convert_views({})
     assert result == "{}"

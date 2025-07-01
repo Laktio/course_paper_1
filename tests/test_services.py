@@ -1,6 +1,6 @@
 
 
-from src.services import caregory_filter, json_convert, year_month_filter
+from src.services import caregory_filter, json_convert_services, year_month_filter
 
 
 def test_year_month_filter():
@@ -17,6 +17,6 @@ def test_caregory_filter():
     assert result == {}
 
 
-def test_json_convert():
-    result = json_convert({})
+def test_json_convert_services():
+    result = json_convert_services({})
     assert result == "{}"
