@@ -5,6 +5,8 @@ from src.services import json_convert_services, caregory_filter_variable
 
 
 def main(json_convert_views_func, spending_by_category_func, json_convert_services_func):
+    """Функция принимает результаты работы модулей reports.py, services.py, views.py и выводит результаты
+    сразу всех модулей"""
 
     return f"""Веб-страницы. Главная.\n {json_convert_views_func} \n
     Сервисы. Выгодные категории повышенного кешбэка.\n {spending_by_category_func} \n
